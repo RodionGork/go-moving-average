@@ -1,0 +1,19 @@
+linters:
+  disable:
+    - structcheck
+  enable:
+    - gofmt
+    - revive
+    - nolintlint
+linters-settings:
+  revive:
+    rules:
+      - name: var-naming
+        severity: warning
+        disabled: false
+        arguments:
+          - ["ID", "HTTP", "URL", "JSON", "SQL", "IP", "API", "UI", "SMTP", "DNS", "SSH"] # AllowList
+          - ["VM"] # DenyList
+      - name: unused-parameter
+        severity: warning
+        disabled: false
