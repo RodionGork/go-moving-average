@@ -6,6 +6,7 @@ import (
 	"net"
 	"net/textproto"
 	"strconv"
+	"strings"
 	"sync"
 )
 
@@ -67,7 +68,7 @@ func StartUDP(params string) {
 	if val, err := strconv.Atoi(params); err == nil {
 		port = val
 	}
-	udpAddr := net.UDPAddr{Port: port, IP: net.ParseIP("127.0.0.1")}
+	udpAddr := net.UDPAddr{Port: port, IP: net.ParseIP("0.0.0.0")}
 	if udpConn, err := net.ListenUDP("udp", &udpAddr); err != nil {
 		log.Println("UDP port won't listen, skipping:", err.Error())
 	} else {
@@ -87,11 +88,18 @@ func serveUDP(conn *net.UDPConn) {
 			log.Println("UDP read error:", err.Error())
 			return
 		} else {
-			if res := processor(string(buf[0:count])); res != "" {
-				if _, err := conn.WriteTo([]byte(res+"\n"), addr); err != nil {
-					log.Println("UDP write error:", err.Error())
-				}
-			}
+		    lines := strings.Split(string(buf[0:count]), "\n")
+		    for _, line := range lines {
+		        line = strings.TrimSpace(line)
+		        if line == "" {
+		            continue
+		        }
+			    if res := processor(line); res != "" {
+				    if _, err := conn.WriteTo([]byte(res+"\n"), addr); err != nil {
+					    log.Println("UDP write error:", err.Error())
+				    }
+			    }
+		    }
 		}
 	}
 }
