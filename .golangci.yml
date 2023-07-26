@@ -17,3 +17,6 @@ linters-settings:
       - name: unused-parameter
         severity: warning
         disabled: false
+run:
+  skip-dirs:
+    - test-scripts

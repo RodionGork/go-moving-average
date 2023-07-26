@@ -88,18 +88,18 @@ func serveUDP(conn *net.UDPConn) {
 			log.Println("UDP read error:", err.Error())
 			return
 		} else {
-		    lines := strings.Split(string(buf[0:count]), "\n")
-		    for _, line := range lines {
-		        line = strings.TrimSpace(line)
-		        if line == "" {
-		            continue
-		        }
-			    if res := processor(line); res != "" {
-				    if _, err := conn.WriteTo([]byte(res+"\n"), addr); err != nil {
-					    log.Println("UDP write error:", err.Error())
-				    }
-			    }
-		    }
+			lines := strings.Split(string(buf[0:count]), "\n")
+			for _, line := range lines {
+				line = strings.TrimSpace(line)
+				if line == "" {
+					continue
+				}
+				if res := processor(line); res != "" {
+					if _, err := conn.WriteTo([]byte(res+"\n"), addr); err != nil {
+						log.Println("UDP write error:", err.Error())
+					}
+				}
+			}
 		}
 	}
 }
