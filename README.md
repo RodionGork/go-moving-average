@@ -3,6 +3,8 @@
 A kind of exercise: program which processes multiple requests which either sent new values for some metrics
 or request to report moving average for the latest period of time of fixed length.
 
+[Video-presentation of this solution](https://youtu.be/k5szbUPvCao)
+
 **Start it:**
 
     make build
